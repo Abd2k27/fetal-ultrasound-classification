@@ -46,6 +46,15 @@ During prenatal screenings, clinicians must capture specific anatomical planes (
 
 ### 1. Environnement / Environment
 ```bash
+# Clone the repository
+git clone https://github.com/Abd2k27/fetal-ultrasound-classification.git
+cd fetal-ultrasound-classification
+
+# Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
@@ -54,18 +63,32 @@ Placez le dataset **Fetal Planes DB** dans le dossier `data/` :
 - `data/Images/` : Contient les fichiers `.png`.
 - `data/FETAL_PLANES_DB_data.csv` : Le fichier de métadonnées.
 
-### 3. Entraînement / Training
-Le code est optimisé pour tourner sur **Mac M1/M2 (MPS)** ou **Google Colab (GPU)**.
+### 3. Entraînement Local (Mac M1/M2/M3) / Local Training
+Le code est optimisé pour utiliser l'accélération **MPS (Metal Performance Shaders)** de votre Mac.
 ```bash
-python -m src.train
+# Run the training module (from the root directory)
+python3 -m src.train
 ```
 
-### ☁️ Utilisation sur Google Colab
+### ☁️ Utilisation sur Google Colab / Usage on Google Colab
 Pour utiliser la puissance des GPU Colab avec cette structure modulaire :
-1. Clonez votre repo dans Colab : `!git clone <URL_REPO>`
-2. Installez les dépendances : `!pip install -r requirements.txt`
-3. Lancez l'entraînement : `!python -m src.train`
-4. Utilisez le notebook `notebooks/01_Error_Analysis_and_Explainability.ipynb` pour visualiser les résultats.
+1. Créez un nouveau notebook Colab et connectez un GPU (T4).
+2. Clonez et installez / Clone and install :
+   ```bash
+   !git clone https://github.com/Abd2k27/fetal-ultrasound-classification.git
+   %cd fetal-ultrasound-classification
+   !pip install -r requirements.txt
+   ```
+3. Lancez l'entraînement / Launch training :
+   ```bash
+   !python3 -m src.train
+   ```
+
+### 📊 Analyse d'Erreurs / Error Analysis
+Une fois le modèle entraîné (`best_model.pth` généré) :
+```bash
+jupyter notebook notebooks/01_Error_Analysis_and_Explainability.ipynb
+```
 
 ---
 *Created for portfolio purposes to demonstrate expertise in Medical Computer Vision.*
