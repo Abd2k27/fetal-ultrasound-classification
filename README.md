@@ -10,7 +10,7 @@
 Lors des examens prénataux, les cliniciens doivent capturer des plans anatomiques précis (ex: cerveau, abdomen) pour mesurer la croissance fœtale et détecter des anomalies. Ce projet automatise l'identification de ces plans, une étape cruciale pour standardiser les soins et réduire la variabilité entre opérateurs.
 
 ### 🚀 Points Clés du Projet
-- **Architecture Professionnelle** : Code modulaire en `.py` (et non un simple notebook) pour permettre le test unitaire et le déploiement.
+- **Architecture** : Code modulaire en `.py` (et non un simple notebook) pour permettre le test unitaire et le déploiement.
 - **Explainability (Grad-CAM)** : Visualisation des zones d'intérêt pour gagner la confiance des cliniciens.
 - **Analyse d'Erreurs Avancée** : Identification automatique des "pires prédictions" pour comprendre les limites du modèle.
 - **State-of-the-Art** : Utilisation de la librairie `timm` pour un EfficientNet-B0 optimisé.
@@ -29,7 +29,7 @@ Lors des examens prénataux, les cliniciens doivent capturer des plans anatomiqu
 During prenatal screenings, clinicians must capture specific anatomical planes (e.g., brain, abdomen) to measure fetal growth and detect anomalies. This project automates the identification of these planes, a critical step in standardizing care and reducing operator variability.
 
 ### 🚀 Project Highlights
-- **Professional Architecture**: Modular `.py` code (not just a notebook) to allow for unit testing and deployment.
+- **Architecture**: Modular `.py` code (not just a notebook) to allow for unit testing and deployment.
 - **Explainability (Grad-CAM)**: Visualization of regions of interest to build clinical trust.
 - **Advanced Error Analysis**: Automatic identification of "worst predictions" to understand model limitations.
 - **State-of-the-Art**: Leveraging the `timm` library for an optimized EfficientNet-B0.
