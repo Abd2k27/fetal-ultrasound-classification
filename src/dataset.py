@@ -11,7 +11,7 @@ class FetalUltrasoundDataset(Dataset):
     Parses the FETAL_PLANES_DB_data.csv and loads images.
     """
     CLINICAL_CLASSES = [
-        "Abdomen", "Brain", "Femur", "Thorax", "Cervix", "Other"
+        "Fetal abdomen", "Fetal brain", "Fetal femur", "Fetal thorax", "Maternal cervix", "Other"
     ]
 
     def __init__(
@@ -37,7 +37,17 @@ class FetalUltrasoundDataset(Dataset):
         df = pd.read_csv(csv_path, sep=';') # Original Zenodo CSV uses ';' as delimiter
         
         # Filter by split
-        self.data = df[df['Train/Test '] == split].reset_index(drop=True)
+        # The Zenodo CSV has 'Train ' as column name (with trailing space)
+        # where 1 is Train and 0 is Test.
+        if 'Train ' in df.columns:
+            split_val = 1 if split == "Train" else 0
+            self.data = df[df['Train '] == split_val].reset_index(drop=True)
+        elif 'Train/Test ' in df.columns:
+            # Fallback for older versions or mock data in tests
+            self.data = df[df['Train/Test '] == split].reset_index(drop=True)
+        else:
+            available_cols = ", ".join(df.columns)
+            raise KeyError(f"Could not find split column ('Train ' or 'Train/Test ') in {csv_path}. Available: {available_cols}")
         
         # Create label mapping if not provided
         if label_map:
@@ -74,8 +84,7 @@ def get_transforms(img_size: int = 224, is_train: bool = True) -> transforms.Com
     if is_train:
         return transforms.Compose([
             transforms.Resize((img_size, img_size)),
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomRotation(15),
+            transforms.RandomAffine(degrees=15, translate=(0.05, 0.05)),
             transforms.ColorJitter(brightness=0.2, contrast=0.2),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])

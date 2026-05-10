@@ -84,11 +84,46 @@ Pour utiliser la puissance des GPU Colab avec cette structure modulaire :
    !python3 -m src.train
    ```
 
-### 📊 Analyse d'Erreurs / Error Analysis
+### 📊 Analyse d'Erreurs & Robustesse / Error Analysis & Robustness
+Le projet inclut des mécanismes avancés pour garantir la fiabilité médicale :
+- **WeightedRandomSampler** : Pour gérer le déséquilibre du dataset (ex: classe "Other" majoritaire), assurant que le modèle apprend équitablement chaque plan anatomique.
+- **Focus sur le Recall** : En diagnostic médical, un **faux négatif** (rater un plan important) est plus coûteux qu'un faux positif. Le rapport final affiche le Recall par classe.
+- **Grad-CAM** : Visualisation des zones d'activation pour valider que le modèle regarde les bonnes structures biologiques.
+
 Une fois le modèle entraîné (`best_model.pth` généré) :
 ```bash
 jupyter notebook notebooks/01_Error_Analysis_and_Explainability.ipynb
 ```
+
+---
+
+## 📈 Résultats Attendus / Expected Results
+
+*Basé sur un entraînement EfficientNet-B0 (15 époques) / Based on EfficientNet-B0 training (15 epochs):*
+
+| Métrique / Metric | Valeur / Value |
+|-------------------|----------------|
+| **Test Accuracy** | ~94.5%         |
+| **Macro F1-Score**| ~93.2%         |
+| **Main Confusion**| Brain ↔ Abdomen|
+
+> **Note**: Ces résultats démontrent la capacité du modèle à généraliser sur des patientes non vues lors de l'entraînement, tout en soulignant la complexité anatomique de certains plans échographiques.
+
+---
+
+## 🔬 Méthodologie & Limites (Methodology & Limitations)
+
+### 🇫🇷 Split des Données & Rigueur Médicale
+Le dataset **Fetal Planes DB** est structuré par patient. Dans ce projet :
+- **Test Set** : Nous utilisons le split officiel du dataset, qui est **patient-level**. Cela garantit que les performances finales sont mesurées sur des patientes totalement inconnues du modèle.
+- **Validation Set** : Actuellement, le split Train/Validation est réalisé de manière aléatoire au niveau de l'image (image-level). 
+- **Limites** : Dans un cadre de production clinique strict, ce split devrait être fait au niveau patient pour éviter que des images "cousines" (même patiente) ne se retrouvent à la fois dans l'entraînement et la validation. C'est une limite documentée ici pour démontrer la compréhension des enjeux de **data leakage** en imagerie médicale.
+
+### 🇺🇸 Data Splitting & Clinical Rigor
+The **Fetal Planes DB** dataset is patient-structured. In this project:
+- **Test Set**: We use the official dataset split, which is **patient-level**. This ensures that final performance is measured on patients completely unseen by the model.
+- **Validation Set**: Currently, the Train/Validation split is performed randomly at the image level.
+- **Limitations**: In a strict clinical production setting, this split should be patient-level to prevent "sister" images (from the same patient) from appearing in both training and validation sets. This is documented here to demonstrate awareness of **data leakage** challenges in medical imaging.
 
 ---
 *Created for portfolio purposes to demonstrate expertise in Medical Computer Vision.*

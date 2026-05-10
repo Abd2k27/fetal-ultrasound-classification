@@ -30,14 +30,14 @@ def get_predictions(model, loader, device):
     return np.array(all_preds), np.array(all_labels), np.array(all_probs)
 
 def plot_confusion_matrix(y_true, y_pred, classes, save_path="confusion_matrix.png"):
-    """Plots and saves a confusion matrix."""
-    cm = confusion_matrix(y_true, y_pred)
+    """Plots and saves a normalized confusion matrix."""
+    cm = confusion_matrix(y_true, y_pred, normalize='true')
     plt.figure(figsize=(10, 8))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+    sns.heatmap(cm, annot=True, fmt='.2%', cmap='Blues',
                 xticklabels=classes, yticklabels=classes)
     plt.xlabel('Predicted')
     plt.ylabel('True')
-    plt.title('Confusion Matrix')
+    plt.title('Normalized Confusion Matrix')
     plt.savefig(save_path)
     plt.close()
 
@@ -61,7 +61,8 @@ def find_worst_predictions(y_true, y_pred, y_probs, classes, top_k=5):
 
 def run_gradcam(model, target_layer, input_tensor, target_category=None):
     """Generates Grad-CAM visualization for a single image tensor."""
-    cam = GradCAM(model=model, target_layers=[target_layer], use_cuda=torch.cuda.is_available())
+    # use_cuda is deprecated, the library detects device from the model
+    cam = GradCAM(model=model, target_layers=[target_layer])
     
     if target_category is None:
         targets = None
