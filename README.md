@@ -126,4 +126,4 @@ The **Fetal Planes DB** dataset is patient-structured. In this project:
 - **Limitations**: In a strict clinical production setting, this split should be patient-level to prevent "sister" images (from the same patient) from appearing in both training and validation sets. This is documented here to demonstrate awareness of **data leakage** challenges in medical imaging.
 
 ---
-*Created for portfolio purposes to demonstrate expertise in Medical Computer Vision.*
+*Created for portfolio purposes to demonstrate my interest in Medical Computer Vision and Deep Learning.*
