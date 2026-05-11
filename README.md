@@ -103,7 +103,7 @@ jupyter notebook notebooks/01_Error_Analysis_and_Explainability.ipynb
 
 ## 📈 Résultats Réels / Actual Results
 
-*EfficientNet-B0 · 10 époques · Test set officiel Fetal Planes DB (5 271 images)*
+*EfficientNet-B0 · 15 époques · Test set officiel Fetal Planes DB (5 271 images)*
 
 ### Classification Report
 
